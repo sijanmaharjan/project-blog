@@ -1,3 +1,3 @@
 # Project-Blog
 
-[preview template](https://preview.colorlib.com/theme/bounty/index.html)
+[preview template](https://startbootstrap.com/previews/clean-blog)
