@@ -1,14 +1,15 @@
 package dao.ejb;
 
 import dao.remote.BlogRemote;
-import model.Blog;
-import model.EntityMan;
-import model.LikedBlog;
+import model.*;
 
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Stateless
 public class BlogDao implements BlogRemote {
@@ -18,9 +19,23 @@ public class BlogDao implements BlogRemote {
     final static public int DEFAULT_OFFSET = 0;
 
     @Override
-    public Blog addNewBlog(Blog blog) {
+    public Blog addNewBlog(Blog blog, String ... tags) {
         blog.setId(UUID.randomUUID().toString());
-        EntityMan.execTransaction(em->em.persist(blog));
+        EntityMan.execTransaction(em->{
+            em.persist(blog);
+            if(tags != null){
+                HashTagDao hashTagDao = new HashTagDao();
+                for(String tag: tags){
+                    if(!tag.trim().isEmpty()) {
+                        Hashtag hashtag = hashTagDao.getOrCreate(tag);
+                        TaggedBlog taggedBlog = new TaggedBlog();
+                        taggedBlog.setBlog(blog);
+                        taggedBlog.setHashtag(hashtag);
+                        em.persist(taggedBlog);
+                    }
+                }
+            }
+        });
         return blog;
     }
 
@@ -69,17 +84,19 @@ public class BlogDao implements BlogRemote {
 
     @Override
     public List<Blog> getList(int offset) {
-        return EntityMan.execute(em->em.createNamedQuery("blog.list", Blog.class).getResultList());
+        return EntityMan.execute(em->em.createNativeQuery("SELECT b.* FROM BLOG b ORDER BY b.TIMESTAMP DESC LIMIT "+LIST_LIMIT+" OFFSET "+offset, Blog.class).getResultList());
     }
 
     @Override
-    public List<Blog> getRelatedBlogs(int... tagIds) {
-        return getFiltered(SUGGEST_LIMIT, DEFAULT_OFFSET, tagIds);
+    public List<Blog> getRelatedBlogs(String blogId, String... tags) {
+        if(tags.length > 0) return getFiltered(SUGGEST_LIMIT, DEFAULT_OFFSET, tags).stream().filter(blog -> !blog.getId().equals(blogId)).collect(Collectors.toList());
+        else return new ArrayList<>();
     }
 
     @Override
-    public List<Blog> getRelatedBlogs(int offset, int... tagIds) {
-        return getFiltered(LIST_LIMIT, offset, tagIds);
+    public List<Blog> getRelatedBlogs(String blogId, int offset, String... tags) {
+        if(tags.length > 0) return filter(offset, tags).stream().filter(blog -> !blog.getId().equals(blogId)).collect(Collectors.toList());
+        else return new ArrayList<>();
     }
 
     @Override
@@ -94,30 +111,40 @@ public class BlogDao implements BlogRemote {
 
     @Override
     public List<Blog> getPopularBlogs() {
-        return EntityMan.execute(em->em.createNamedQuery("blog.popular", Blog.class)
-                .setParameter("limit", SUGGEST_LIMIT)
+        return EntityMan.execute(em->em.createNativeQuery("SELECT b.* FROM BLOG b WHERE b.view_count > 0 ORDER BY b.view_count DESC LIMIT "+SUGGEST_LIMIT, Blog.class)
                 .getResultList());
     }
 
     @Override
     public List<Blog> getHighlyLikedBlogs() {
-        return EntityMan.execute(em->em.createNamedQuery("blog.highly.liked", Blog.class)
-                .setParameter("limit", SUGGEST_LIMIT)
+        return EntityMan.execute(em->em.createNativeQuery(
+                "SELECT b.* " +
+                        "FROM BLOG b, (" +
+                        "SELECT l.blog_id, count(l.id) as total " +
+                        "FROM LIKEDBLOG l " +
+                        "GROUP BY l.blog_id) as likes " +
+                        "WHERE likes.blog_id = b.id AND likes.total > 0 " +
+                        "ORDER BY likes.total DESC " +
+                        "LIMIT "+SUGGEST_LIMIT, Blog.class)
                 .getResultList());
     }
 
     @Override
     public List<Blog> searchBlogs(String text, int offset) {
-        return EntityMan.execute(em->em.createNamedQuery("blog.search", Blog.class)
-                .setParameter("text", text)
-                .setParameter("limit", LIST_LIMIT)
-                .setParameter("offset", offset)
+        return EntityMan.execute(em->em.createNativeQuery(
+                    "SELECT b.* " +
+                        "FROM BLOG b " +
+                        "WHERE b.TITLE LIKE '%"+text+"%' OR b.sub_title LIKE '%"+text+"%' " +
+                        "ORDER BY b.TIMESTAMP DESC " +
+                        "LIMIT "+LIST_LIMIT+" " +
+                        "OFFSET "+offset, Blog.class)
                 .getResultList());
     }
 
     @Override
-    public List<Blog> filter(int offset, int... tagIds) {
-        return getFiltered(LIST_LIMIT, offset, tagIds);
+    public List<Blog> filter(int offset, String... tags) {
+        if(tags.length > 0) return getFiltered(LIST_LIMIT, offset, tags);
+        else return getList(offset);
     }
 
     @Override
@@ -135,18 +162,29 @@ public class BlogDao implements BlogRemote {
                 .getSingleResult())) > 0;
     }
 
-    private List<Blog> getFiltered(int limit, int offset, int ... tagIds){
-        return EntityMan.execute(em->em.createNamedQuery("blog.filter", Blog.class)
-                .setParameter("tagIds", tagIds)
-                .setParameter("limit", limit)
-                .setParameter("offset", offset)
+    private List<Blog> getFiltered(int limit, int offset, String [] tags){
+        return EntityMan.execute(em->em.createNativeQuery(
+                    "SELECT b.* " +
+                        "FROM BLOG b " +
+                        "WHERE b.ID IN (" +
+                        "SELECT t.blog_id " +
+                        "from TAGGEDBLOG t, HASHTAG h " +
+                        "WHERE t.tag_id = h.ID " +
+                        "AND h.TITLE IN "+ Arrays.toString(Arrays.stream(tags).map(tag->"'"+tag+"'").toArray())
+                                                .replace("[", "(")
+                                                .replace("]", ")") +") " +
+                        "LIMIT "+limit+" " +
+                        "OFFSET "+offset, Blog.class)
                 .getResultList());
     }
 
     private List<Blog> getRandom(int limit, int offset){
-        return EntityMan.execute(em->em.createNamedQuery("blog.random", Blog.class)
-                .setParameter("limit", limit)
-                .setParameter("offset", offset)
+        return EntityMan.execute(em->em.createNativeQuery(
+                    "SELECT b.* " +
+                        "FROM BLOG b " +
+                        "ORDER BY RAND() " +
+                        "LIMIT "+limit+" " +
+                        "OFFSET "+offset, Blog.class)
                 .getResultList());
     }
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+<persistence version="2.1"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
     <persistence-unit name="BlogBase">
         <class>model.Profile</class>
         <class>model.Hashtag</class>
         <class>model.Blog</class>
         <class>model.TaggedBlog</class>
-        <class>model.ViewCount</class>
         <class>model.LikedBlog</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

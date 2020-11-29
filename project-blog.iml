@@ -147,5 +147,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="JPA 2.1-JPA 2.1" level="project" />
   </component>
 </module>

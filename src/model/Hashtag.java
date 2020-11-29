@@ -5,10 +5,11 @@ import javax.persistence.*;
 @Entity
 @Table
 @NamedQueries({
-        @NamedQuery(name = "tag.exists", query = "SELECT COUNT(t) FROM Hashtag t WHERE t.title=:title"),
+        @NamedQuery(name = "tag.count", query = "SELECT COUNT(t) FROM Hashtag t WHERE t.title=:title"),
+        @NamedQuery(name = "tag.findByTitle", query = "SELECT t FROM Hashtag t WHERE t.title=:title"),
 })
 @NamedNativeQueries(
-        @NamedNativeQuery(name = "tag.empty.delete", query = "DELETE FROM Hashtag h WHERE h.id IN (SELECT DISTINCT(t.id) FROM Hashtag t LEFT JOIN TaggedBlog b ON b.tag_id = t.id WHERE b.id IS NULL)")
+        @NamedNativeQuery(name = "tag.empty.delete", query = "DELETE FROM HASHTAG h WHERE h.id IN (SELECT DISTINCT(t.id) FROM HASHTAG t LEFT JOIN TAGGEDBLOG b ON b.tag_id = t.id WHERE b.id IS NULL)")
 )
 public class Hashtag implements java.io.Serializable {
     @Id
