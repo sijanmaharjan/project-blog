@@ -27,7 +27,12 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String serve = req.getParameter("serve");
-        Cookie offsetCookie = Arrays.stream(req.getCookies()).filter(cookie -> cookie.getName().equals(OFFSET)).findFirst().orElse(new Cookie(OFFSET, "0"));
+        Cookie offsetCookie;
+        try {
+            offsetCookie = Arrays.stream(req.getCookies()).filter(cookie -> cookie.getName().equals(OFFSET)).findFirst().orElse(new Cookie(OFFSET, "0"));
+        }catch (NullPointerException e){
+            offsetCookie = new Cookie(OFFSET, "0");
+        }
         int offset = Integer.parseInt(offsetCookie.getValue());
         if(serve != null){
             switch (serve){
