@@ -6,7 +6,8 @@ import javax.ejb.Remote;
 
 @Remote
 public interface ProfileRemote {
-    void saveProfile(Profile profile);
+    Profile saveProfile(Profile profile);
     void updateProfile(Profile profile);
     Profile getProfile();
+    boolean checkIfProfileExists();
 }

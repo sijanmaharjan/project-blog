@@ -4,5 +4,5 @@ import javax.ejb.Remote;
 
 @Remote
 public interface HashTagRemote {
-    Boolean checkIfExist(String tagName);
+    boolean checkIfExist(String tagName);
 }

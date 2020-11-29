@@ -1,13 +1,16 @@
 package dao.ejb;
 
 import dao.remote.HashTagRemote;
+import model.EntityMan;
 
 import javax.ejb.Stateless;
 
 @Stateless
 public class HashTagDao implements HashTagRemote {
     @Override
-    public Boolean checkIfExist(String tagName) {
-        return null;
+    public boolean checkIfExist(String tagName) {
+        return (EntityMan.execute(em->em.createNamedQuery("tag.exists", Long.class)
+                .setParameter("title", tagName)
+                .getSingleResult())) > 0;
     }
 }

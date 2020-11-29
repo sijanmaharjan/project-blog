@@ -4,6 +4,10 @@ import javax.persistence.*;
 
 @Entity
 @Table
+@NamedQueries({
+        @NamedQuery(name = "like.deleteByBlogId", query = "DELETE FROM LikedBlog b WHERE b.blog.id = :blogId"),
+        @NamedQuery(name = "like.remove", query = "DELETE FROM LikedBlog b WHERE b.blog.id = :blogId AND b.viewerId = :viewerId")
+})
 public class LikedBlog implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +19,11 @@ public class LikedBlog implements java.io.Serializable {
     private String viewerId;
 
     public LikedBlog() {
+    }
+
+    public LikedBlog(Blog blog, String viewerId) {
+        this.blog = blog;
+        this.viewerId = viewerId;
     }
 
     public Integer getId() {

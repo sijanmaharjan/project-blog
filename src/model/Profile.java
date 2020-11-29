@@ -4,6 +4,10 @@ import javax.persistence.*;
 
 @Entity
 @Table
+@NamedQueries({
+        @NamedQuery(name = "profile.get", query = "SELECT p FROM Profile p"),
+        @NamedQuery(name = "profile.count", query = "SELECT count(p) FROM Profile p")
+})
 public class Profile implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

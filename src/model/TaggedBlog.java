@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 @Entity
 @Table
+@NamedQueries(
+        @NamedQuery(name = "tag.deleteByBlogId", query = "DELETE FROM TaggedBlog b WHERE b.blog.id = :blogId")
+)
 public class TaggedBlog implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -7,12 +7,12 @@ import java.util.List;
 
 @Remote
 public interface BlogRemote {
-    void addNewBlog(Blog blog);
+    Blog addNewBlog(Blog blog);
     void updateBlog(Blog blog);
-    void deleteBlog(int id);
-    void addLike(int blogId, String viewerId);
-    void removeLike(int blogId, String viewerId);
-    Blog getBlog(int id);
+    void deleteBlog(String id);
+    void addLike(String blogId, String viewerId);
+    void removeLike(String blogId, String viewerId);
+    Blog getBlog(String id, boolean view);
     List<Blog> getList(int offset);
     List<Blog> getRelatedBlogs(int ... tagIds);
     List<Blog> getRelatedBlogs(int offset, int ... tagIds);
@@ -20,9 +20,8 @@ public interface BlogRemote {
     List<Blog> getRandomBlogs(int offset);
     List<Blog> getPopularBlogs();
     List<Blog> getHighlyLikedBlogs();
-    List<Blog> searchBlogs(String text);
-    List<Blog> filter(int ... tagIds);
-    Integer getViewCount(int blogId);
-    Integer getLikeCount(int blogId);
-    Boolean checkLikes(int blogId, String viewerId);
+    List<Blog> searchBlogs(String text, int offset);
+    List<Blog> filter(int offset, int ... tagIds);
+    Long getLikeCount(String blogId);
+    boolean checkLikes(String blogId, String viewerId);
 }
