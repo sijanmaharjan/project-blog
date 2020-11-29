@@ -7,6 +7,7 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name = "tag.count", query = "SELECT COUNT(t) FROM Hashtag t WHERE t.title=:title"),
         @NamedQuery(name = "tag.findByTitle", query = "SELECT t FROM Hashtag t WHERE t.title=:title"),
+        @NamedQuery(name = "tag.list", query = "SELECT t FROM Hashtag t, TaggedBlog b WHERE b.hashtag.id = t.id AND b.blog.id = :blogId")
 })
 @NamedNativeQueries(
         @NamedNativeQuery(name = "tag.empty.delete", query = "DELETE FROM HASHTAG h WHERE h.id IN (SELECT DISTINCT(t.id) FROM HASHTAG t LEFT JOIN TAGGEDBLOG b ON b.tag_id = t.id WHERE b.id IS NULL)")

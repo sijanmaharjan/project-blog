@@ -408,3 +408,8 @@ footer .copyright {
   font-size: 16px;
   padding: 25px 35px;
 }
+
+.suggest .post-title {
+  !important;
+  font-size: 25px;
+}

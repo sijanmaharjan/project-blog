@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Stateless
 public class BlogDao implements BlogRemote {
 
-    final static public int LIST_LIMIT = 10;
+    final static public int LIST_LIMIT = 15;
     final static public int SUGGEST_LIMIT = 5;
     final static public int DEFAULT_OFFSET = 0;
 
@@ -88,14 +88,19 @@ public class BlogDao implements BlogRemote {
     }
 
     @Override
-    public List<Blog> getRelatedBlogs(String blogId, String... tags) {
-        if(tags.length > 0) return getFiltered(SUGGEST_LIMIT, DEFAULT_OFFSET, tags).stream().filter(blog -> !blog.getId().equals(blogId)).collect(Collectors.toList());
+    public List<Hashtag> getTags(String blogId) {
+        return EntityMan.execute(em->em.createNamedQuery("tag.list", Hashtag.class).setParameter("blogId", blogId).getResultList());
+    }
+
+    @Override
+    public List<Blog> getRelatedBlogs(String blogId, List<String> tags) {
+        if(!tags.isEmpty()) return getFiltered(SUGGEST_LIMIT, DEFAULT_OFFSET, tags).stream().filter(blog -> !blog.getId().equals(blogId)).collect(Collectors.toList());
         else return new ArrayList<>();
     }
 
     @Override
-    public List<Blog> getRelatedBlogs(String blogId, int offset, String... tags) {
-        if(tags.length > 0) return filter(offset, tags).stream().filter(blog -> !blog.getId().equals(blogId)).collect(Collectors.toList());
+    public List<Blog> getRelatedBlogs(String blogId, int offset, List<String> tags) {
+        if(!tags.isEmpty()) return filter(offset, tags).stream().filter(blog -> !blog.getId().equals(blogId)).collect(Collectors.toList());
         else return new ArrayList<>();
     }
 
@@ -142,8 +147,8 @@ public class BlogDao implements BlogRemote {
     }
 
     @Override
-    public List<Blog> filter(int offset, String... tags) {
-        if(tags.length > 0) return getFiltered(LIST_LIMIT, offset, tags);
+    public List<Blog> filter(int offset, List<String> tags) {
+        if(!tags.isEmpty()) return getFiltered(LIST_LIMIT, offset, tags);
         else return getList(offset);
     }
 
@@ -162,7 +167,7 @@ public class BlogDao implements BlogRemote {
                 .getSingleResult())) > 0;
     }
 
-    private List<Blog> getFiltered(int limit, int offset, String [] tags){
+    private List<Blog> getFiltered(int limit, int offset, List<String> tags){
         return EntityMan.execute(em->em.createNativeQuery(
                     "SELECT b.* " +
                         "FROM BLOG b " +
@@ -170,7 +175,7 @@ public class BlogDao implements BlogRemote {
                         "SELECT t.blog_id " +
                         "from TAGGEDBLOG t, HASHTAG h " +
                         "WHERE t.tag_id = h.ID " +
-                        "AND h.TITLE IN "+ Arrays.toString(Arrays.stream(tags).map(tag->"'"+tag+"'").toArray())
+                        "AND h.TITLE IN "+ Arrays.toString(tags.stream().map(tag->"'"+tag+"'").toArray())
                                                 .replace("[", "(")
                                                 .replace("]", ")") +") " +
                         "LIMIT "+limit+" " +
