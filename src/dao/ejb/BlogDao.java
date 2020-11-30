@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class BlogDao implements BlogRemote {
 
     final static public int LIST_LIMIT = 15;
-    final static public int SUGGEST_LIMIT = 5;
+    final static public int SUGGEST_LIMIT = 3;
     final static public int DEFAULT_OFFSET = 0;
 
     @Override

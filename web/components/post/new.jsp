@@ -23,11 +23,10 @@
             {
                 title: $(form).find("#title").val(),
                 subTitle: $(form).find("#subTitle").val(),
-                content: $(form).find("#content").val(),
                 tags: $(form).find("#tags").val()
             },
             function (data) {
-                location.reload();
+                window.location="blog.view?id="+data;
             }
         ).fail(handleRequestFailure);
         event.preventDefault();

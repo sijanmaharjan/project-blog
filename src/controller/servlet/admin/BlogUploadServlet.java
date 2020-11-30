@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = {"/blog.admin.upload"})
 public class BlogUploadServlet extends HttpServlet {
@@ -23,14 +24,17 @@ public class BlogUploadServlet extends HttpServlet {
         blog.setTitle(req.getParameter("title"));
         String sub = req.getParameter("subTitle");
         blog.setSubTitle(sub.isEmpty()? null : sub);
-        blog.setContent(req.getParameter("content"));
+        blog.setContent("");
         blog.setCoverImage("test");
         String tags = req.getParameter("tags").trim();
+        Blog newBlog;
         if(tags.isEmpty()) {
-            blogRemote.addNewBlog(blog);
+            newBlog = blogRemote.addNewBlog(blog);
         }else{
-            blogRemote.addNewBlog(blog, tags.split(","));
+            newBlog = blogRemote.addNewBlog(blog, tags.split(","));
         }
-        resp.setStatus(200);
+        resp.setContentType("application/text");
+        PrintWriter out = resp.getWriter();
+        out.print(newBlog.getId());
     }
 }
