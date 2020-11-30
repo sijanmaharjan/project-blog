@@ -48,9 +48,10 @@ public class BlogDao implements BlogRemote {
     public void deleteBlog(String id) {
         EntityMan.execTransaction(em->{
             em.createNamedQuery("tag.deleteByBlogId").setParameter("blogId", id).executeUpdate();
-            em.createNamedQuery("tag.empty.delete").executeUpdate();
             em.createNamedQuery("like.deleteByBlogId").setParameter("blogId", id).executeUpdate();
             em.createNamedQuery("blog.deleteById").setParameter("id", id).executeUpdate();
+            List<Integer> hashtags = em.createNamedQuery("tag.empty.delete", Integer.class).getResultList();
+            hashtags.forEach(tag->em.createQuery("DELETE FROM Hashtag h where h.id=:id").setParameter("id", tag).executeUpdate());
         });
     }
 

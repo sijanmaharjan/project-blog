@@ -19,12 +19,12 @@
     <c:if test="${tags.size() > 0}">
         <div class="container">
             <div class="row">
-                    <%--        <c:if test="${isLoggedIn}">--%>
-                <div class="col-md-12" style="height: 70px">
-                    <a class="btn btn-primary" onclick="modifyBlog()">Make Change</a>
-                    <a class="btn btn-danger" onclick="deleteBlog()">Remove</a>
-                </div>
-                    <%--        </c:if>--%>
+                <c:if test="${isLoggedIn}">
+                    <div class="col-md-12" style="height: 70px">
+                        <a class="btn btn-primary" onclick="modifyBlog()">Make Change</a>
+                        <a class="btn btn-danger" onclick="deleteBlog()">Remove</a>
+                    </div>
+                </c:if>
                 <c:forEach var="tag" items="${tags}">
                     <a class="tag" style="
                         background-color: #212529;
@@ -55,29 +55,29 @@
     </div>
 </article>
 
-<%@include file="../post/update.jsp"%>
-
-<script>
-    function modifyBlog() {
-        const el = $('#update-blog-form');
-        $(el).find("textarea#content").text('${blog.content}');
-        $(el).find("input#tags").removeAttr("required");
-        $(el).find("input#tags").attr("hidden", "hidden");
-        showGeneralModal("#update-blog-form");
-    }
-    function deleteBlog() {
-        const resp = confirm("Are you sure to delete this blog?");
-        if(resp){
-            $.ajax({
-                url: 'blog.admin.update',
-                type: 'DELETE',
-                param: {
-                    id: '${blog.id}'
-                },
-                success: function(data){
-                    location.reload();
-                }
-            }).fail(handleRequestFailure)
+<c:if test="${isLoggedIn}">
+    <%@include file="../post/update.jsp"%>
+    <script>
+        function modifyBlog() {
+            const el = $('#update-blog-form');
+            $(el).find("textarea#content").text('${blog.content}');
+            $(el).find("input#tags").removeAttr("required");
+            $(el).find("input#tags").attr("hidden", "hidden");
+            showGeneralModal("#update-blog-form");
         }
-    }
-</script>
+        function deleteBlog() {
+            const resp = confirm("Are you sure to delete this blog?");
+            if(resp){
+                $.post(
+                    'blog.admin.delete',
+                    {
+                        id: '${blog.id}'
+                    },
+                    function(data){
+                        window.location = "blog.jeni"
+                    }
+                ).fail(handleRequestFailure)
+            }
+        }
+    </script>
+</c:if>

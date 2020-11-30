@@ -10,7 +10,7 @@
         </div>
         <div class="d-flex flex-column text-center">
             <form onsubmit="updateBlog(event, this)">
-                <input type="text" name="id" value="${blog.id}" hidden>
+                <input type="text" id="id" name="id" value="${blog.id}" hidden>
                 <%@include file="form.jsp"%>
                 <button type="submit" class="btn btn-info btn-block btn-round">Update Changes</button>
             </form>
