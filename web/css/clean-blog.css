@@ -413,3 +413,7 @@ footer .copyright {
   !important;
   font-size: 25px;
 }
+
+.cursor-pointer{
+  cursor: pointer;
+}

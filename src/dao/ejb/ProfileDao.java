@@ -5,6 +5,7 @@ import model.EntityMan;
 import model.Profile;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
 @Stateless
 public class ProfileDao implements ProfileRemote {
@@ -21,7 +22,11 @@ public class ProfileDao implements ProfileRemote {
 
     @Override
     public Profile getProfile() {
-        return EntityMan.execute(em->em.createNamedQuery("profile.get", Profile.class).getSingleResult());
+        try {
+            return EntityMan.execute(em -> em.createNamedQuery("profile.get", Profile.class).getSingleResult());
+        }catch (NoResultException e){
+            return null;
+        }
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Profile implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(length = 125, nullable = false)
+    @Column(length = 125)
     private String picture;
     @Column(length = 125, nullable = false)
     private String bio;
@@ -20,11 +20,11 @@ public class Profile implements java.io.Serializable {
     private String firstName;
     @Column(length = 32, nullable = false)
     private String lastName;
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String facebookId;
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String instagramId;
-    @Column(length = 32, nullable = false)
+    @Column(length = 32)
     private String githubId;
     @Column(length = 32, nullable = false)
     private String username;

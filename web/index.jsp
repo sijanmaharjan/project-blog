@@ -5,6 +5,7 @@
 <jsp:useBean id="popularBlogs" scope="request" type="java.util.List<model.Blog>"/>
 <jsp:useBean id="highlyLikedBlogs" scope="request" type="java.util.List<model.Blog>"/>
 <jsp:useBean id="randomBlogs" scope="request" type="java.util.List<model.Blog>"/>
+<jsp:useBean id="profile" scope="application" type="model.Profile"/>
 <%
   String p = (String) request.getAttribute("p");
 %>
@@ -23,6 +24,7 @@
     </c:choose>
     <hr>
     <%@include file="components/footer.jsp"%>
+    <%@include file="components/modal.jsp"%>
     <%@include file="components/scripts.jsp"%>
   </body>
 </html>
