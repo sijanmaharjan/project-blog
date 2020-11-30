@@ -6,7 +6,8 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading" style="padding: 150px 0;">
                         <h1>${profile.firstName.toUpperCase()} ${profile.lastName.toUpperCase()}</h1>
-                        <a style="color: white" href="mailto:${profile.email}"><span class="subheading">${profile.email}</span></a>
+                        <a style="color: white" href="mailto:${profile.email}"><span class="subheading">${profile.email}</span></a><br/>
+                        <a style="color: white" ><i class="fa fa-pen"></i></a>
                     </div>
                 </div>
             </div>

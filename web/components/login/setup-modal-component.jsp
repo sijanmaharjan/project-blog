@@ -1,7 +1,7 @@
 <div id="setup-modal-content" hidden>
     <div class="modal-header border-bottom-0">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">x</span>
+            <span aria-hidden="true"><i class="fa fa-times"></i></span>
         </button>
     </div>
     <div class="modal-body">

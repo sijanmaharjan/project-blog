@@ -21,8 +21,8 @@
             <div class="row">
                 <c:if test="${isLoggedIn}">
                     <div class="col-md-12" style="height: 70px">
-                        <a class="btn btn-primary" onclick="modifyBlog()">Make Change</a>
-                        <a class="btn btn-danger" onclick="deleteBlog()">Remove</a>
+                        <a class="btn btn-primary" onclick="modifyBlog()"><i class="fa fa-pen"></i> Make Change</a>
+                        <a class="btn btn-danger" onclick="deleteBlog()"><i class="fa fa-trash"></i> Remove</a>
                     </div>
                 </c:if>
                 <c:forEach var="tag" items="${tags}">

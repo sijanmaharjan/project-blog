@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             <c:if test="${isLoggedIn}">
-                <div style="height: 50px"><a class="btn btn-primary float-right" onclick="writeBlog()">+ ADD NEW</a></div>
+                <div style="height: 50px"><a class="btn btn-primary float-right" onclick="writeBlog()"><i class="fa fa-plus"></i> ADD NEW</a></div>
             </c:if>
             <c:forEach var="blog" items="${blogs}">
                 <%@include file="../blog-item.jsp"%>
