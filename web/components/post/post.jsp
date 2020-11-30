@@ -117,18 +117,23 @@
         });
 
         function updateBlogContent() {
-            $.post(
-                'blog.admin.update',
-                {
-                    id: '${blog.id}',
-                    title: '${blog.title}',
-                    subTitle: '${blog.subTitle}',
-                    content: tinymce.get('edit-content').getContent()
-                },
-                function (data) {
-                    location.reload();
-                }
-            ).fail(handleRequestFailure);
+            const content = tinymce.get('edit-content').getContent();
+            if(content.length>0 && content.length<5000){
+                $.post(
+                    'blog.admin.update',
+                    {
+                        id: '${blog.id}',
+                        title: '${blog.title}',
+                        subTitle: '${blog.subTitle}',
+                        content: content
+                    },
+                    function (data) {
+                        location.reload();
+                    }
+                ).fail(handleRequestFailure);
+            }else if(content.length >= 5000){
+                alert("exceeded maximum content length ie. 5000");
+            }
         }
 
         function addTag(){

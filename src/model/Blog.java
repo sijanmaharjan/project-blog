@@ -20,7 +20,7 @@ public class Blog implements java.io.Serializable {
     private String title;
     @Column(name = "sub_title", length = 170)
     private String subTitle;
-    @Column(name = "content", length = 1000, nullable = false)
+    @Column(name = "content", length = 5000, nullable = false)
     private String content;
     @Column(name = "view_count", nullable = false)
     private int viewCount = 0;
