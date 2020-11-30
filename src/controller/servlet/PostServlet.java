@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.List;
@@ -32,6 +33,12 @@ public class PostServlet extends HttpServlet {
         List<Blog> popularBlogs = blogRemote.getPopularBlogs();
         List<Blog> highlyLikedBlogs = blogRemote.getHighlyLikedBlogs();
         List<Blog> randomBlogs = blogRemote.getRandomBlogs();
+
+        HttpSession session = req.getSession();
+        if (session.isNew() || session.getAttribute("isLoggedIn") == null) {
+            session.setAttribute("isLoggedIn", false);
+        }
+
         req.setAttribute("blog", blog);
         req.setAttribute("tags", tags);
         req.setAttribute("relatedBlogs", relatedBlogs);

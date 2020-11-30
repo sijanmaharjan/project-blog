@@ -1,6 +1,7 @@
 package controller.servlet.filter;
 
 import dao.remote.ProfileRemote;
+import model.Profile;
 
 import javax.ejb.EJB;
 import javax.servlet.*;
@@ -25,7 +26,8 @@ public class ProfileProvider implements Filter{
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String uri = req.getRequestURI();
         if (uri.contains("blog") && context.getAttribute("profile") == null) {
-            context.setAttribute("profile", profileRemote.getProfile());
+            Profile profile = profileRemote.getProfile();
+            context.setAttribute("profile", profile == null ? new Profile() : profile);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

@@ -13,7 +13,7 @@
                     <a class="nav-link" href="blog.jeni">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">About</a>
+                    <a class="nav-link" href="blog.jeni?p=b">About</a>
                 </li>
                 <li class="nav-item">
                     <a id="login-nav-item" class="nav-link cursor-pointer" onclick="${isLoggedIn?"logout()":"showLoginModal()"}">${isLoggedIn?"Logout":"Login"}</a>

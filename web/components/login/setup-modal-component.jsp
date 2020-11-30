@@ -36,7 +36,7 @@
                     password: psw,
                 },function (data) {
                     alert("Profile Setup Success!")
-                    $("#general-modal").find("div.modal-content").html($('#login-modal-content').html());
+                    location.reload();
                 }
             ).fail(error=>{
                 switch (error.status) {

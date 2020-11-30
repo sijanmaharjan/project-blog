@@ -1,14 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="offset" scope="request" type="java.lang.Integer"/>
+<jsp:useBean id="p" scope="request" type="java.lang.String"/>
 <jsp:useBean id="zone" scope="request" type="java.time.ZoneId"/>
-<jsp:useBean id="blogs" scope="request" type="java.util.List<model.Blog>"/>
-<jsp:useBean id="popularBlogs" scope="request" type="java.util.List<model.Blog>"/>
-<jsp:useBean id="highlyLikedBlogs" scope="request" type="java.util.List<model.Blog>"/>
-<jsp:useBean id="randomBlogs" scope="request" type="java.util.List<model.Blog>"/>
 <jsp:useBean id="profile" scope="application" type="model.Profile"/>
-<%
-  String p = (String) request.getAttribute("p");
-%>
 <!DOCTYPE html>
 <html lang="en">
   <%@include file="components/head.jsp"%>
@@ -16,6 +9,11 @@
     <%@include file="components/nav.jsp"%>
     <c:choose>
       <c:when test='<%=p==null || p.equals("a")%>'>
+        <jsp:useBean id="offset" scope="request" type="java.lang.Integer"/>
+        <jsp:useBean id="blogs" scope="request" type="java.util.List<model.Blog>"/>
+        <jsp:useBean id="popularBlogs" scope="request" type="java.util.List<model.Blog>"/>
+        <jsp:useBean id="highlyLikedBlogs" scope="request" type="java.util.List<model.Blog>"/>
+        <jsp:useBean id="randomBlogs" scope="request" type="java.util.List<model.Blog>"/>
         <%@include file="components/home/home.jsp"%>
       </c:when>
       <c:when test='<%="b".equals(p)%>'>

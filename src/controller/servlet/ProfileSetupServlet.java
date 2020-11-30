@@ -32,6 +32,7 @@ public class ProfileSetupServlet extends HttpServlet {
             profile.setUsername(req.getParameter("username"));
             profile.setPassword(BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt()));
             profileRemote.saveProfile(profile);
+            req.getServletContext().setAttribute("profile", null);
             resp.setStatus(200);
         }else{
             resp.sendError(403);

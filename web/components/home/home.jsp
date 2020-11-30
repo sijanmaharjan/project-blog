@@ -21,6 +21,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
+            <a class="btn btn-primary float-right" onclick="writeBlog()">+ ADD NEW</a>
             <c:forEach var="blog" items="${blogs}">
                 <%@include file="../blog-item.jsp"%>
             </c:forEach>
@@ -38,3 +39,11 @@
     </div>
     <%@include file="../random-suggest.jsp"%>
 </div>
+
+<%@include file="../post/new.jsp"%>
+
+<script>
+    function writeBlog() {
+        showGeneralModal("#new-blog-form")
+    }
+</script>

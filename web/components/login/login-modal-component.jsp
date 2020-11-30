@@ -20,11 +20,13 @@
             </form>
         </div>
     </div>
-    <div class="modal-footer d-flex justify-content-center">
-        <div class="signup-section">
-            <a onclick="showSetupModal()" class="text-info cursor-pointer">Setup Profile</a>
+    <c:if test="${profile==null || profile.firstName == null || profile.firstName.trim().length() == 0}">
+        <div class="modal-footer d-flex justify-content-center">
+            <div class="signup-section">
+                <a onclick="showSetupModal()" class="text-info cursor-pointer">Setup Profile</a>
+            </div>
         </div>
-    </div>
+    </c:if>
 </div>
 
 <script>
