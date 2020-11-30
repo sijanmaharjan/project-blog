@@ -1,4 +1,4 @@
-<div id="new-blog-form"hidden>
+<div id="update-blog-form" hidden>
     <div class="modal-header border-bottom-0">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true"><i class="fa fa-times"></i></span>
@@ -6,30 +6,30 @@
     </div>
     <div class="modal-body">
         <div class="form-title text-center">
-            <h4>Write New Blog</h4>
+            <h4>Update Blog Title</h4>
         </div>
         <div class="d-flex flex-column text-center">
-            <form onsubmit="uploadBlog(event, this)">
+            <form onsubmit="updateBlog(event, this)">
                 <%@include file="form.jsp"%>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="tags" name="tags" placeholder="Tags (separate with comma)" pattern="^[a-zA-Z,_ ]*$">
-                </div>
-                <button type="submit" class="btn btn-info btn-block btn-round">ADD</button>
+                <button type="submit" class="btn btn-info btn-block btn-round">UPDATE</button>
             </form>
         </div>
     </div>
 </div>
 <script>
-    function uploadBlog(event, form) {
+    function showUpdateBlogModal(){
+        showGeneralModal("#update-blog-form");
+    }
+    function updateBlog(event, form) {
         $.post(
-            'blog.admin.upload',
+            'blog.admin.update',
             {
+                id: '${blog.id}',
                 title: $(form).find("#title").val(),
-                subTitle: $(form).find("#subTitle").val(),
-                tags: $(form).find("#tags").val()
+                subTitle: $(form).find("#subTitle").val()
             },
             function (data) {
-                window.location="blog.view?id="+data;
+                location.reload()
             }
         ).fail(handleRequestFailure);
         event.preventDefault();

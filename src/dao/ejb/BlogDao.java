@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Stateless
 public class BlogDao implements BlogRemote {
 
-    final static public int LIST_LIMIT = 15;
+    final static public int LIST_LIMIT = 10;
     final static public int SUGGEST_LIMIT = 3;
     final static public int DEFAULT_OFFSET = 0;
 
@@ -166,6 +166,39 @@ public class BlogDao implements BlogRemote {
                 .setParameter("blogId", blogId)
                 .setParameter("viewerId", viewerId)
                 .getSingleResult())) > 0;
+    }
+
+    @Override
+    public Blog addTags(Blog blog, String... tags) {
+        EntityMan.execTransaction(em->{
+            if(tags != null){
+                HashTagDao hashTagDao = new HashTagDao();
+                for(String tag: tags){
+                    if(!tag.trim().isEmpty()) {
+                        Hashtag hashtag = hashTagDao.getOrCreate(tag.trim());
+                        TaggedBlog taggedBlog = new TaggedBlog();
+                        taggedBlog.setBlog(blog);
+                        taggedBlog.setHashtag(hashtag);
+                        if(em.createQuery("SELECT count(t) from TaggedBlog t where t.blog.id=:blogId and t.hashtag.id = :tagId", Long.class)
+                                .setParameter("blogId", blog.getId())
+                                .setParameter("tagId", hashtag.getId()).getSingleResult() == 0) {
+                            em.persist(taggedBlog);
+                        }
+                    }
+                }
+            }
+        });
+        return blog;
+    }
+
+    @Override
+    public void removeTag(String blogId, Integer id) {
+        EntityMan.execTransaction(em->{
+            em.createQuery("DELETE FROM TaggedBlog t where t.blog.id=:blogId and t.hashtag.id=:tagId")
+                    .setParameter("tagId", id)
+                    .setParameter("blogId", blogId)
+                    .executeUpdate();
+        });
     }
 
     private List<Blog> getFiltered(int limit, int offset, List<String> tags){

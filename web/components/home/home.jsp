@@ -29,11 +29,11 @@
             </c:forEach>
             <!-- Pager -->
             <div class="clearfix">
-                <c:if test="${offset > 0}">
-                    <a class="btn btn-primary float-right" href="blog.jeni?serve=new">&larr; Newer Posts</a>
-                </c:if>
                 <c:if test="${blogs.size() > 0}">
                     <a class="btn btn-primary float-right" href="blog.jeni?serve=old">Older Posts &rarr;</a>
+                </c:if>
+                <c:if test="${offset > 0}">
+                    <a class="btn btn-primary float-right" href="blog.jeni?serve=new">&larr; Newer Posts</a>
                 </c:if>
             </div>
         </div>

@@ -26,4 +26,6 @@ public interface BlogRemote {
     List<Blog> filter(int offset, List<String> tags);
     Long getLikeCount(String blogId);
     boolean checkLikes(String blogId, String viewerId);
+    Blog addTags(Blog blog, String... tags);
+    void removeTag(String blogId, Integer id);
 }

@@ -8,6 +8,3 @@
 <div class="form-group">
     <input type="text" class="form-control" id="subTitle" name="subTitle" value='<%=blog2 != null && blog2.getSubTitle() != null?blog2.getSubTitle():""%>' placeholder="Sub-Title">
 </div>
-<div class="form-group">
-    <input type="text" class="form-control" id="tags" name="tags" placeholder="Tags (separate with comma)" pattern="^[a-zA-Z,_ ]*$">
-</div>

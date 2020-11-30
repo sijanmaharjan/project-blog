@@ -24,20 +24,21 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session = req.getSession();
+        if (session.isNew() || session.getAttribute("isLoggedIn") == null) {
+            session.setAttribute("isLoggedIn", false);
+        }
+
         String id = req.getParameter("id");
         if(id == null) resp.sendRedirect("blog.jeni");
-        Blog blog = blogRemote.getBlog(id, true);
+        Blog blog = blogRemote.getBlog(id, session.getAttribute("isLoggedIn") == null||!(Boolean) session.getAttribute("isLoggedIn"));
         if(blog == null) resp.sendRedirect("blog.jeni");
         List<Hashtag> tags = blogRemote.getTags(id);
         List<Blog> relatedBlogs = blogRemote.getRelatedBlogs(id, tags.stream().map(Hashtag::getTitle).collect(Collectors.toList()));
         List<Blog> popularBlogs = blogRemote.getPopularBlogs();
         List<Blog> highlyLikedBlogs = blogRemote.getHighlyLikedBlogs();
         List<Blog> randomBlogs = blogRemote.getRandomBlogs();
-
-        HttpSession session = req.getSession();
-        if (session.isNew() || session.getAttribute("isLoggedIn") == null) {
-            session.setAttribute("isLoggedIn", false);
-        }
 
         req.setAttribute("blog", blog);
         req.setAttribute("tags", tags);
