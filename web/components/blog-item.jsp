@@ -9,6 +9,6 @@
             </em>
         </c:if>
     </a>
-    <p class="post-meta">Posted on ${blog.timestamp.toInstant().atZone(zone).toLocalDateTime()}</p>
+    <p class="post-meta">${blog.viewCount} views, <b:LikeCount blogId="${blog.id}"/>, Posted on ${blog.timestamp.toInstant().atZone(zone).toLocalDateTime()}</p>
 </div>
 <hr>

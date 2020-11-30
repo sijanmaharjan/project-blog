@@ -1,0 +1,55 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>Custom Tags for my Blog</short-name>
+    <tag>
+        <name>LikeCount</name>
+        <tag-class>controller.servlet.taglib.LikeCount</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>blogId</name>
+            <type>java.lang.String</type>
+            <description>blog id</description>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>LikeButton</name>
+        <tag-class>controller.servlet.taglib.LikeButton</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>blogId</name>
+            <type>java.lang.String</type>
+            <description>blog id</description>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>viewerId</name>
+            <type>java.lang.String</type>
+            <description>blog id</description>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>UnlikeButton</name>
+        <tag-class>controller.servlet.taglib.UnlikeButton</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>blogId</name>
+            <type>java.lang.String</type>
+            <description>blog id</description>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>viewerId</name>
+            <type>java.lang.String</type>
+            <description>blog id</description>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

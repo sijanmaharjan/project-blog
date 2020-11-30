@@ -1,3 +1,6 @@
+<%@ page import="java.util.Optional" %>
+<% String viewerId = Optional.ofNullable((String) session.getAttribute("viewerId")).orElse("");%>
+
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('img/post-bg.jpg')">
     <div class="overlay"></div>
@@ -7,7 +10,7 @@
                 <div class="post-heading">
                     <h1>${blog.title}</h1>
                     <h2 class="subheading">${blog.subTitle}</h2>
-                    <span class="meta">Posted on ${blog.timestamp.toInstant().atZone(zone).toLocalDateTime()}</span>
+                    <span class="meta"><b:LikeButton blogId="${blog.id}" viewerId="<%=viewerId%>"/><b:UnlikeButton blogId="${blog.id}" viewerId="<%=viewerId%>"/> ${blog.viewCount} views, <b:LikeCount blogId="${blog.id}"/>, Posted on ${blog.timestamp.toInstant().atZone(zone).toLocalDateTime()}</span>
                 </div>
             </div>
         </div>
@@ -81,3 +84,69 @@
         }
     </script>
 </c:if>
+<script>
+    function likeBlog(blogId, viewer) {
+        if(viewer === ""){
+            let id = prompt("Enter Your Email");
+            if(/^[a-z0-9A_Z.]+@[a-z]+.[a-z]+$/.test(id)){
+                $.post(
+                    'blog.cache.id',
+                    {
+                        viewerId: id
+                    },
+                    function (data) {
+                        location.reload();
+                    }
+                ).fail(handleRequestFailure)
+            }else{
+                alert("invalid email!");
+            }
+        }else{
+            sendLike(blogId, viewer)
+        }
+    }
+    function sendLike(blogId, viewerId){
+        $.post(
+            'blog.like',
+            {
+                blogId: blogId,
+                viewerId: viewerId
+            },
+            function (data) {
+                location.reload();
+            }
+        ).fail(handleRequestFailure)
+    }
+    function unlikeBlog(blogId, viewer) {
+        if(viewer === ""){
+            let id = prompt("Enter Your Email");
+            if(/^[a-z0-9A_Z.]+@[a-z]+.[a-z]+$/.test(id)){
+                $.post(
+                    'blog.cache.id',
+                    {
+                        viewerId: id
+                    },
+                    function (data) {
+                        location.reload();
+                    }
+                ).fail(handleRequestFailure)
+            }else{
+                alert("invalid email!");
+            }
+        }else{
+            sendUnlike(blogId, viewer)
+        }
+    }
+    function sendUnlike(blogId, viewerId){
+        $.post(
+            'blog.unlike',
+            {
+                blogId: blogId,
+                viewerId: viewerId
+            },
+            function (data) {
+                location.reload();
+            }
+        ).fail(handleRequestFailure)
+    }
+</script>

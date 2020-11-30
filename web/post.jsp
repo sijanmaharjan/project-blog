@@ -1,3 +1,4 @@
+<%@ taglib prefix="b" uri="/WEB-INF/blog.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:useBean id="zone" scope="request" type="java.time.ZoneId"/>
 <jsp:useBean id="blog" scope="request" type="model.Blog"/>
