@@ -27,7 +27,7 @@ public class BlogDao implements BlogRemote {
                 HashTagDao hashTagDao = new HashTagDao();
                 for(String tag: tags){
                     if(!tag.trim().isEmpty()) {
-                        Hashtag hashtag = hashTagDao.getOrCreate(tag);
+                        Hashtag hashtag = hashTagDao.getOrCreate(tag.trim());
                         TaggedBlog taggedBlog = new TaggedBlog();
                         taggedBlog.setBlog(blog);
                         taggedBlog.setHashtag(hashtag);
@@ -178,6 +178,7 @@ public class BlogDao implements BlogRemote {
                         "AND h.TITLE IN "+ Arrays.toString(tags.stream().map(tag->"'"+tag+"'").toArray())
                                                 .replace("[", "(")
                                                 .replace("]", ")") +") " +
+                        "ORDER BY RAND() " +
                         "LIMIT "+limit+" " +
                         "OFFSET "+offset, Blog.class)
                 .getResultList());

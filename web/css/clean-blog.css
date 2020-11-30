@@ -417,3 +417,13 @@ footer .copyright {
 .cursor-pointer{
   cursor: pointer;
 }
+
+.tag{
+  background-color: black;
+  border-radius: 5px;
+  padding: 3px 5px;
+  color:white;
+  font-size: 9pt;
+  cursor: default;
+  margin-left: 10px;
+}

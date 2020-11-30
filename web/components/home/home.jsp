@@ -21,7 +21,9 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <a class="btn btn-primary float-right" onclick="writeBlog()">+ ADD NEW</a>
+            <c:if test="${isLoggedIn}">
+                <div style="height: 50px"><a class="btn btn-primary float-right" onclick="writeBlog()">+ ADD NEW</a></div>
+            </c:if>
             <c:forEach var="blog" items="${blogs}">
                 <%@include file="../blog-item.jsp"%>
             </c:forEach>
@@ -40,10 +42,11 @@
     <%@include file="../random-suggest.jsp"%>
 </div>
 
-<%@include file="../post/new.jsp"%>
-
-<script>
-    function writeBlog() {
-        showGeneralModal("#new-blog-form")
-    }
-</script>
+<c:if test="${isLoggedIn}">
+    <%@include file="../post/new.jsp"%>
+    <script>
+        function writeBlog() {
+            showGeneralModal("#new-blog-form")
+        }
+    </script>
+</c:if>

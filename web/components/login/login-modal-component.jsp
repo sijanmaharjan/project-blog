@@ -39,6 +39,7 @@
                 $('#login-nav-item').text("Logout");
                 $('#login-nav-item').attr("onclick","logout()");
                 hideGeneralModal();
+                location.reload();
             }
         ).fail(handleRequestFailure);
         event.preventDefault();

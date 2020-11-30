@@ -20,10 +20,19 @@
         <div class="container">
             <div class="row">
                 <c:forEach var="tag" items="${tags}">
-                    <div class="col-md-1">${tag.title}</div>
+                    <a class="tag" style="
+                        background-color: #212529;
+                        border-radius: 10px;
+                        padding: 3px 8px;
+                        color:white;
+                        font-size: 10pt;
+                        cursor: default;
+                        margin-left: 10px;
+                    ">#${tag.title}</a>
                 </c:forEach>
             </div>
         </div>
+        <br/>
     </c:if>
     <div class="container">
         <div class="row">
