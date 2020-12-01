@@ -23,7 +23,9 @@ public class ProfileUpdateServlet extends HttpServlet {
         String id = req.getParameter("id");
         if(id != null) {
             Profile profile = new Profile();
+            Profile old = (Profile) req.getServletContext().getAttribute("profile");
             profile.setId(Integer.parseInt(id));
+            profile.setPicture(old.getPicture());
             profile.setFirstName(req.getParameter("firstName"));
             profile.setLastName(req.getParameter("lastName"));
             profile.setFacebookId(req.getParameter("facebookId"));
@@ -35,7 +37,7 @@ public class ProfileUpdateServlet extends HttpServlet {
             if(!req.getParameter("password").trim().isEmpty()) {
                 profile.setPassword(BCrypt.hashpw(req.getParameter("password"), BCrypt.gensalt()));
             }else{
-                profile.setPassword(((Profile)req.getServletContext().getAttribute("profile")).getPassword());
+                profile.setPassword(old.getPassword());
             }
             profileRemote.updateProfile(profile);
             req.getServletContext().setAttribute("profile", null);
