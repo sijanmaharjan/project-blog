@@ -1,21 +1,26 @@
 <!-- Page Header -->
-<c:if test="${randomBlogs.size() > 0}">
-    <header class="masthead" style="<c:if test="${randomBlogs.get(0).coverImage != null}">background-image: url('images/${randomBlogs.get(0).coverImage}');</c:if> height: 40vh;">
-        <div class="overlay" style="height: 40vh;"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <div class="site-heading" style="padding: 100px 0;">
-                        <a href="blog.view?id=${randomBlogs.get(0).id}" style="color: white">
-                            <h1 style="font-size: 24pt">${randomBlogs.get(0).title}</h1>
-                            <span class="subheading">${randomBlogs.get(0).subTitle}</span>
-                        </a>
+<c:choose>
+    <c:when test="${randomBlogs.size() > 0}">
+        <header class="masthead" style="<c:if test="${randomBlogs.get(0).coverImage != null}">background-image: url('images/${randomBlogs.get(0).coverImage}');</c:if> height: 40vh;">
+            <div class="overlay" style="height: 40vh;"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        <div class="site-heading" style="padding: 100px 0;">
+                            <a href="blog.view?id=${randomBlogs.get(0).id}" style="color: white">
+                                <h1 style="font-size: 24pt">${randomBlogs.get(0).title}</h1>
+                                <span class="subheading">${randomBlogs.get(0).subTitle}</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
-</c:if>
+        </header>
+    </c:when>
+    <c:otherwise>
+        <div style="height: 80px; background-color: #1b1e21; margin-bottom: 20px"></div>
+    </c:otherwise>
+</c:choose>
 
 <!-- Main Content -->
 <div class="container">

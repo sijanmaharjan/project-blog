@@ -10,7 +10,7 @@
                 <div class="post-heading">
                     <h1>${blog.title}</h1>
                     <h2 class="subheading"><c:if test="${isLoggedIn}"><i class="fa fa-pen cursor-pointer" onclick="showUpdateBlogModal()"></i></c:if> ${blog.subTitle}</h2>
-                    <span class="meta"><c:if test="${!isLoggedIn}"><b:LikeButton blogId="${blog.id}" viewerId="<%=viewerId%>"/><b:UnlikeButton blogId="${blog.id}" viewerId="<%=viewerId%>"/></c:if> ${blog.viewCount} views, <b:LikeCount blogId="${blog.id}"/>, Posted on ${blog.timestamp.toInstant().atZone(zone).toLocalDateTime()}</span>
+                    <span class="meta"><c:if test="${!isLoggedIn}"><b:LikeButton blogId="${blog.id}" viewerId="<%=viewerId%>"/><b:UnlikeButton blogId="${blog.id}" viewerId="<%=viewerId%>"/></c:if> <b:LikeCount blogId="${blog.id}"/>, Posted on ${blog.timestamp.toInstant().atZone(zone).toLocalDateTime()}</span>
                     <c:if test="${isLoggedIn}">
                         <span style="
                             color: white;
@@ -199,7 +199,7 @@
                         viewerId: id
                     },
                     function (data) {
-                        location.reload();
+                        sendLike(blogId, id)
                     }
                 ).fail(handleRequestFailure)
             }else{

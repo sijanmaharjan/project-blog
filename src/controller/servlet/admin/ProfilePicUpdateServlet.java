@@ -30,7 +30,7 @@ public class ProfilePicUpdateServlet extends HttpServlet {
         imageFileService.removeFile(req, pid);
         imageFileService.uploadFile(pid, req, req.getPart("profileImg"));
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
