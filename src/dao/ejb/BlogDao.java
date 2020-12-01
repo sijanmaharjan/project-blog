@@ -8,13 +8,12 @@ import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Stateless
 public class BlogDao implements BlogRemote {
 
-    final static public int LIST_LIMIT = 10;
+    final static public int LIST_LIMIT = 5;
     final static public int SUGGEST_LIMIT = 3;
     final static public int DEFAULT_OFFSET = 0;
 
