@@ -20,7 +20,6 @@ public class BlogDao implements BlogRemote {
 
     @Override
     public Blog addNewBlog(Blog blog, String ... tags) {
-        blog.setId(UUID.randomUUID().toString());
         EntityMan.execTransaction(em->{
             em.persist(blog);
             if(tags != null){

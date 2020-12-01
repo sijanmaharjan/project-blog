@@ -1,6 +1,6 @@
 <!-- Page Header -->
 <c:if test="${randomBlogs.size() > 0}">
-    <header class="masthead" style="background-image: url('img/home-bg.jpg'); height: 40vh;">
+    <header class="masthead" style="<c:if test="${randomBlogs.get(0).coverImage != null}">background-image: url('images/${randomBlogs.get(0).coverImage}');</c:if> height: 40vh;">
         <div class="overlay" style="height: 40vh;"></div>
         <div class="container">
             <div class="row">

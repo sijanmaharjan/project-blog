@@ -2,7 +2,7 @@
 <% String viewerId = Optional.ofNullable((String) session.getAttribute("viewerId")).orElse("");%>
 
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('img/post-bg.jpg')">
+<header class="masthead" style="<c:if test="${blog.coverImage != null}">background-image: url('images/${blog.coverImage}');</c:if>">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
@@ -11,6 +11,21 @@
                     <h1>${blog.title}</h1>
                     <h2 class="subheading"><c:if test="${isLoggedIn}"><i class="fa fa-pen cursor-pointer" onclick="showUpdateBlogModal()"></i></c:if> ${blog.subTitle}</h2>
                     <span class="meta"><c:if test="${!isLoggedIn}"><b:LikeButton blogId="${blog.id}" viewerId="<%=viewerId%>"/><b:UnlikeButton blogId="${blog.id}" viewerId="<%=viewerId%>"/></c:if> ${blog.viewCount} views, <b:LikeCount blogId="${blog.id}"/>, Posted on ${blog.timestamp.toInstant().atZone(zone).toLocalDateTime()}</span>
+                    <c:if test="${isLoggedIn}">
+                        <span style="
+                            color: white;
+                            background-color: #040505;
+                            border-radius: 20px;
+                            font-size: 10pt;
+                            padding: 3px 8px;
+                            opacity: 0.7;
+                            cursor:pointer;
+                        " onclick="updateCoverImage();"><i class="fa fa-camera"></i> Upload Cover Image</span>
+                        <form id="img-update-form" method="post" action="blog.admin.update-pic" enctype="multipart/form-data" hidden>
+                            <input type="text" name="id" hidden value="${blog.id}"/>
+                            <input type="file" name="coverImg" required/>
+                        </form>
+                    </c:if>
                 </div>
             </div>
         </div>
@@ -163,6 +178,13 @@
                     location.reload()
                 }
             ).fail(handleRequestFailure)
+        }
+        function updateCoverImage() {
+            const form = $("#img-update-form");
+            $(form).find("input[name=coverImg]").click();
+            $(form).find("input[name=coverImg]").change(function (){
+                $(form).submit();
+            });
         }
     </script>
 </c:if>
