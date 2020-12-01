@@ -7,7 +7,7 @@
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading" style="padding: 100px 0;">
                         <a href="blog.view?id=${randomBlogs.get(0).id}" style="color: white">
-                            <h1>${randomBlogs.get(0).title}</h1>
+                            <h1 style="font-size: 24pt">${randomBlogs.get(0).title}</h1>
                             <span class="subheading">${randomBlogs.get(0).subTitle}</span>
                         </a>
                     </div>
